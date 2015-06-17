@@ -1,0 +1,33 @@
+<template name="result">
+    <div class="modal show">
+        <div class="container modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close cancel" data-dismiss="modal">x</a>
+                    <h3><small>Question : </small><br>{{Question}}</h3>
+                </div>
+                <div class="modal-body" id="svgBody">
+                    <div class="row">
+                       <div id="chart" class="col-md-12">
+                           <p>the best Option for you criteria is :<br>
+                           <b>{{resultOfAnalyse.[0].label}}</b> with <b>{{resultOfAnalyse.[0].value}}</b> points <br>
+                           and the second one is :<br>
+                           <b>{{resultOfAnalyse.[1].label}}</b> with <b>{{resultOfAnalyse.[1].value}}</b> points <br>
+                           </p>
+                           
+                       </div> 
+                    </div>
+                    <div class="row">
+                       <div id="chart" class="svg-container" >
+                           <svg id="chrt" class="svg-content"></svg>
+                       </div> 
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-warning cancel" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+

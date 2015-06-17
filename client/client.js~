@@ -1,0 +1,702 @@
+//QocData = new Meteor.Collection('QocData');
+//if (Meteor.isClient) {
+    //set application name for template
+    Session.setDefault('appName', 'QOCapp');
+    Session.setDefault('idData', null);
+    Session.setDefault('showOptionValue', false);
+    Session.setDefault('showCriteriaInput', false);
+    Session.setDefault('optionId', null);
+    Session.setDefault('criteriaId', null);
+    Session.setDefault('newOption', true);
+    Session.setDefault('newCriteria', false);
+    Session.setDefault('lengthChar', null);
+    Session.setDefault('chrit', null);
+    Session.setDefault('listOpt', null);
+    Session.setDefault('updateOptionbtn', false);
+    Session.setDefault('deleteOptionForm', false);
+    Session.setDefault('deleteCriteriaForm', false);
+    Session.setDefault('deleteQocForm', false);
+    Session.setDefault('updateQocForm', false);
+    Session.setDefault('addQoc', false);
+    Session.setDefault('startCountForm', false);
+    Session.setDefault('resultQoc', null);
+    Session.setDefault('showResult', false);
+    Session.setDefault('search_query', '');
+    Session.setDefault('inputEnabled', 'disabled');
+    Session.setDefault('searchButton', false);
+    Session.setDefault('qocCursor', 0);
+    Session.setDefault('postCount', 0)
+    //define router for template
+    Meteor.Router.add({
+        '/': 'home',
+        '/myqoc': 'myqoc',
+        //        '/myprofile': 'myprofile',
+        '/qocdetail': 'qocdetail'
+    });
+
+    
+    username = function () {
+            var user = Meteor.user();
+            var usernameLogin = null
+            if (user) {
+                usernameLogin = user.username;
+            }
+            return usernameLogin
+        }
+        
+    Template.optionValue.updateOptionbtn = function () {
+        return Session.get('updateOptionbtn');
+    }
+
+    //all events and logic on template listQoc
+    Template.listQoc.qocListOwner = function (_id) {
+        return QocData.find({
+            _id: Session.get('idData')
+        });
+    }
+    Template.listQoc.events({
+        'click .listId': function (evt, tmpl) {
+            Session.set('idData', tmpl.data._id);
+        },
+        'click .addOptionForm': function () {
+            Session.set('optionId', null);
+            Session.set('showOptionValue', true);
+        },
+        'click .addCriteriaForm': function () {
+            Session.set('showCriteriaInput', true);
+            Session.set('newCriteria', true);
+        },
+        'click .delete': function (evt, tmpl) {
+            Session.set('idData', tmpl.data._id);
+            Session.set('deleteQocForm', true);
+            //           QocData.remove({_id:Session.get('idData')})
+        },
+        'click .editQoc': function (evt, tmpl) {
+            Session.set('idData', tmpl.data._id);
+            Session.set('updateQocForm', true);
+        },
+        'click .start': function (evt, tmpl) {
+            Session.set('idData', tmpl.data._id);
+            //                       countQoc(5,6,7);
+            Session.set('startCountForm', true);
+        },
+        'click .statistic': function (evt, tmpl) {
+            statisticOptions()
+        }
+    })
+    Template.listQoc.qocListCriteria = function () {
+        var a = QocData.findOne({
+            _id: Session.get('idData')
+        });
+        var b = null;
+        if (a && a.options.length > 0) {
+            b = a.options[0].criterias;
+            Session.set('listOpt', a.options)
+        } else {
+            Session.set('listOpt', null)
+        }
+        return b
+    }
+    Template.listQoc.qocListOption = function () {
+        var a = QocData.findOne({
+            _id: Session.get('idData')
+        }); //ntar by idnya
+        if (a) {
+            var b = a.options;
+        } else {
+            var b = [];
+        }
+        return b
+    }
+    Template.listQoc.checkOptionNull = function () {
+        var a = QocData.findOne({
+            _id: Session.get('idData')
+        })
+        if (a && a.options) {
+            if (a.options.length == 0) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+    Template.listQoc.graphOptions = function(){
+        statisticOptions()
+    }
+    var statisticOptions = function () {
+        var optionResult = []
+        var selectedQocForGraph = QocData.findOne({
+            _id: Session.get('idData')
+        })
+        if (selectedQocForGraph) {
+            var options = selectedQocForGraph.options;
+        } else {
+            var options = [];
+        }
+        for (var i = 0; i < options.length; i++) {
+            optionResult[i] = {
+                "label": options[i].option,
+                "value": options[i].numselected
+            }
+        }
+        
+        var idStatisticName = '#stat_'+String(Session.get('idData'))+' svg'
+        nv.addGraph(function () {
+            var chart = nv.models.discreteBarChart()
+                .x(function (d) {
+                    return d.label
+                }) //Specify the data accessors.
+                .y(function (d) {
+                    return d.value
+                })
+//                .showXAxis(false)
+                .margin({left:20,right:20})
+                .staggerLabels(true) //Too many bars and not enough room? Try staggering labels.
+                .tooltips(false) //Don't show tooltips
+                .showValues(true) //...instead, show the bar value right on top of each bar.
+                .transitionDuration(350);
+            var svgLoad=d3.select(idStatisticName)
+                .datum(exampleData())
+                .call(chart);
+//            var makeLegend = nv.models.legend()            //initialize legend function
+//                .key(function(d) { return d.label; });    //tell the function which property to use as text
+//            //add a group to hold legend, position as necessary
+//            svgLoad.append("g").attr("class", "legend")    //(no positioning will draw legend across top of SVG)
+//                               .datum(exampleData()[0].values)     //set data to the array of objects you want 
+//                                                             //included in the legend
+//                               .transition().duration(500)
+//                               .call(makeLegend);
+//            nv.utils.windowResize(makeLegend);
+            nv.utils.windowResize(chart.update);
+            return chart;
+        });
+        
+        function exampleData() {
+            return [{
+                    key: "Cumulative Return",
+                    values: optionResult
+                    }]
+        }
+    }
+    Template.ListValues.newOption = function () {
+        return Session.get('newOption');
+    }
+    Template.optionlist.events({
+        'click .optionlist': function (evt, tmpl) {
+            Session.set('updateOptionbtn', true);
+            Session.set('optionId', tmpl.data.option);
+            Session.set('newOption', false);
+            Session.set('showOptionValue', true);
+        },
+        'click .deleteOption': function (evt, tmpl) {
+            Session.set('optionId', tmpl.data.option)
+            Session.set('deleteOptionForm', true)
+        }
+    });
+    Template.deleteQocForm.events({
+        'click .delete': function () {
+            Session.set('deleteQocForm', false);
+            Meteor.call('removeQoc', Session.get('idData'))
+            //        Session.set('idData',null);
+        },
+        'click .cancel': function () {
+            Session.set('deleteQocForm', false);
+            //        Session.set('idData',null);
+        }
+    })
+    Template.deleteQocForm.qoc = function () {
+        var b = QocData.findOne({
+            _id: Session.get('idData')
+        })
+        if (!b) return '';
+        return (b.qoc)
+    }
+    Template.updateQocForm.addQoc = function () {
+        return Session.get('addQoc')
+    }
+    Template.updateQocForm.qocData = function () {
+        return QocData.findOne({
+            _id: Session.get('idData')
+        });
+    }
+    Template.updateQocForm.sharedStatusJa = function () {
+        var sharedStatus = false
+        var sharedStatusJa = QocData.findOne({
+            _id: Session.get('idData'),
+            status: 'Shared'
+        });
+        if (sharedStatusJa) {
+            sharedStatus = true
+        }
+        return sharedStatus
+    }
+    Template.updateQocForm.events({
+        'click .update': function (evt, tmpl) {
+            var qocQuestion = tmpl.find('.qocQuestion')
+                .value
+            var description = tmpl.find('.description')
+                .value
+            var qocType = tmpl.find('.type')
+                .value
+            var status = tmpl.find('.status')
+                .value
+            var sameQocName = checkSameQoc(qocQuestion);
+            if (sameQocName == true && Session.get('inputEnabled') == 'enabled') {
+                alert('QOC ist already exist, please give another name')
+            } else {
+                updateQoc(qocQuestion, description, qocType, status)
+                Session.set('updateQocForm', false);
+                Session.set('addQoc', false);
+                Session.set('inputEnabled', 'disabled');
+            }
+        },
+        'click .cancel': function (evt, tmpl) {
+            Session.set('updateQocForm', false);
+            Session.set('addQoc', false);
+            Session.set('inputEnabled', 'disabled');
+        },
+        'click .save': function (evt, tmpl) {
+            var qocQuestion = tmpl.find('.qocQuestion')
+                .value
+            var description = tmpl.find('.description')
+                .value
+            var qocType = tmpl.find('.type')
+                .value
+            var status = tmpl.find('.status')
+                .value
+            var sameQocName = checkSameQoc(qocQuestion);
+            if (sameQocName == true || qocQuestion == '') {
+                alert('QOC Qustion is already exist or it is Empty')
+            } else {
+                Meteor.call("addNewQoc", qocQuestion, description, qocType, status)
+                Session.set('updateQocForm', false);
+                Session.set('addQoc', false);
+                Session.set('inputEnabled', 'disabled');
+            }
+        },
+        'change input[type=checkbox].checkboxEditQocName': function (evt, tmpl) {
+            if (Session.get('inputEnabled') == 'disabled') {
+                Session.set('inputEnabled', 'enabled');
+            } else {
+                Session.set('inputEnabled', 'disabled');
+            }
+        }
+    });
+    Template.updateQocForm.enabled = function () {
+        return Session.get('inputEnabled')
+    }
+    var checkSameQoc = function (qocInput) {
+        var selectedQoc = QocData.findOne({
+            qoc: qocInput
+        })
+        if (selectedQoc) {
+            return true
+        } else {
+            return false
+        }
+    }
+    var updateQoc = function (qocQuestion, description, qocType, status) {
+        Meteor.call("updateQoc", Session.get('idData'), qocQuestion, description, qocType, status)
+    }
+    Template.deleteOptionForm.events({
+        'click .delete': function (evt, tmpl) {
+            Meteor.call("deleteOption", Session.get('idData'), Session.get('optionId'))
+            Session.set('deleteOptionForm', false)
+            Session.set('optionId', null)
+        },
+        'click .cancel': function (evt, tmpl) {
+            Session.set('deleteOptionForm', false)
+            Session.set('optionId', null)
+        }
+    });
+    Template.deleteCriteriaForm.events({
+        'click .delete': function (evt, tmpl) {
+            Meteor.call("deleteCriteria", Session.get('idData'), Session.get('criteriaId'));
+            Session.set('deleteCriteriaForm', false);
+            Session.set('criteriaId', null);
+        },
+        'click .cancel': function (evt, tmpl) {
+            Session.set('deleteCriteriaForm', false);
+            Session.set('criteriaId', null);
+        }
+    })
+    Template.deleteOptionForm.Option = function () {
+        return Session.get('optionId');
+    }
+    //all events and logic on template optionValue
+    Template.optionValue.Option = function () {
+        return Session.get('optionId');
+    }
+    Template.optionValue.events({
+        'click .save': function (evt, tmpl) {
+            var optionform = tmpl.find('.optionform')
+                .value
+            if (optionform == '') {
+                alert('Empty Option')
+            } else {
+                var InputCorrect = dbUpdate(evt, tmpl, Session.get('updateOptionbtn'));
+                if (InputCorrect) {
+                    Session.set('showOptionValue', false);
+                    Session.set('newOption', true);
+                    Session.set('optionId', null);
+                    Session.set('chrit', null);
+                } else {
+                    alert('You Have entered the same Option')
+                }
+            }
+        },
+        'click .update': function (evt, tmpl) {
+            dbUpdate(evt, tmpl, Session.get('updateOptionbtn'));
+            Session.set('showOptionValue', false);
+            Session.set('optionId', null);
+            Session.set('newOption', true);
+            Session.set('chrit', null);
+            Session.set('updateOptionbtn', false);
+        },
+        'click .cancel': function (evt, tmpl) {
+            Session.set('showOptionValue', false);
+            Session.set('newOption', true);
+            Session.set('updateOptionbtn', false);
+            Session.set('chrit', null);
+        }
+    });
+    Template.optionValue.valueList = function () {
+        var listOfCriteria = getListCriteria()
+        return listOfCriteria
+    }
+    Template.startCountQoc.valueList = function () {
+        var listOfCriteria = getListCriteria()
+        return listOfCriteria
+    }
+    Template.startCountQoc.Question = function () {
+        return (QocData.findOne({
+                _id: Session.get('idData')
+            })
+            .qoc)
+    }
+    Template.startCountQoc.events({
+        'click .analyse': function (evt, tmpl) {
+            var userInput = []
+            Session.set('startCountForm', false)
+            //          alert(Session.get('chrit'))
+            //          alert(JSON.stringify(Session.get('chrit'), null, 4))
+            for (var i = 0; i < Session.get('chrit')
+                .length; i++) {
+                var valueName = null
+                var charval = '.' + 'value' + '_' + i;
+                valueName = tmpl.find(charval)
+                    .value
+                if (valueName == null || valueName == '') {
+                    valueName = 0
+                }
+                userInput[i] = valueName
+            }
+            //          alert(JSON.stringify(userInput, null, 4))
+            countQoc(userInput)
+            Session.set('startCountForm', false)
+            Session.set('showResult', true)
+        },
+        'click .cancel': function (evt, tmpl) {
+            Session.set('startCountForm', false)
+        }
+    });
+    Template.result.events({
+        'click .cancel': function (evt, tmpl) {
+            Session.set('showResult', false);
+            //            Session.set('resultQoc',null);
+        }
+    });
+    Template.result.rendered = function () {
+        nv.addGraph(function () {
+            var chart = nv.models.pieChart()
+                .x(function (d) {
+                    return d.label
+                })
+                .y(function (d) {
+                    return d.value
+                })
+                .showLabels(true);
+            d3.select("#chart svg")
+                .datum(Session.get('resultQoc'))
+                .transition()
+                .duration(350)
+                .call(chart);
+            return chart;
+        });
+        var widthSVG = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+        if (widthSVG > 1000) {
+            var chrt = $("#chrt")
+                //                             chrt.attr("width", "400px");
+                //                             chrt.attr("height", "400px");
+                //            chrt.attr("preserveAspectRatio", "xMinYMin meet")
+            var setSvgViewBox = document.getElementsByTagName("svg")[0];
+            setSvgViewBox.setAttribute("viewBox", "0 0 550 550");
+        } else {
+            var chrt = $("#chrt"),
+                viewboxsize = "0 0 " + (0.8 * widthSVG) + " " + (0.8 * widthSVG);
+            var setSvgViewBox = document.getElementsByTagName("svg")[0];
+            setSvgViewBox.setAttribute("viewBox", viewboxsize);
+            chrt.attr("width", widthSVG);
+            chrt.attr("height", widthSVG);
+        }
+    }
+    Template.result.Question = function () {
+        return (QocData.findOne({
+                _id: Session.get('idData')
+            })
+            .qoc)
+    }
+    Template.result.resultOfAnalyse = function () {
+        return Session.get('resultQoc')
+    }
+    var getListCriteria = function () {
+        var a = QocData.findOne({
+            _id: Session.get('idData')
+        });
+        if (a && a.options.length > 0) {
+            for (var i = 0; i < a.options.length; i++) {
+                if (a.options[i].option == Session.get('optionId')) {
+                    var b = a.options[i].criterias
+                }
+            }
+            if (!b) {
+                var b = a.options[0].criterias
+            }
+        } else {
+            b = null
+        }
+        if (b) {
+            Session.set('lengthChar', b.length);
+            Session.set('chrit', b);
+            for (var i = 0; i < Session.get('lengthChar'); i++) {
+                b[i].index = i
+            }
+        }
+        //        alert(JSON.stringify(b, null, 4))
+        return b;
+    }
+    Template.optionValue.newOption = function () {
+        return Session.get('newOption');
+    }
+    var dbUpdate = function (evt, tmpl, updateBtn) {
+        var InputCorrect = true
+        var optionform = Session.get('optionId');
+        var chritlist = Session.get('chrit');
+        var firstOption = false
+        if (QocData.findOne({
+                _id: Session.get('idData')
+            })
+            .options.length == 0) {
+            firstOption = true
+        }
+        if (!updateBtn) {
+            optionform = tmpl.find('.optionform')
+                .value;
+            InputCorrect = addOption(optionform);
+        }
+        if (InputCorrect) {
+            if (!firstOption) {
+                for (var i = 0; i < Session.get('lengthChar'); i++) {
+                    if (chritlist[i].criteria) {
+                        var criteriaForm = chritlist[i].criteria;
+                        var charval = '.' + 'value' + '_' + i;
+                        var valueName = tmpl.find(charval)
+                            .value
+                        updateOptionValue(optionform, criteriaForm, valueName, updateBtn);
+                    }
+                }
+            }
+        } else {
+            inputCorrect = false
+        }
+        return InputCorrect
+    }
+    Template.criteriaValue.events({
+        'click .save': function (evt, tmpl) {
+            var listOpt = Session.get('listOpt')
+            var criteriaInput = tmpl.find('.criteriaInput')
+                .value;
+            if (criteriaInput != '') {
+                var checkSameChrit = QocData.findOne({
+                    _id: Session.get('idData'),
+                    "options.0.criterias.criteria": criteriaInput
+                })
+                if (checkSameChrit == null) {
+                    for (var i = 0; i < listOpt.length; i++) {
+                        updateCriteria(listOpt[i].option, criteriaInput);
+                    }
+                    Session.set('showCriteriaInput', false);
+                    Session.set('newCriteria', false);
+                } else {
+                    alert('Criteria is already exist, please Select to update it')
+                }
+            } else {
+                alert('Criteria is Empty')
+            }
+        },
+        'click .cancel': function (evt, tmpl) {
+            Session.set('showCriteriaInput', false);
+            Session.set('newCriteria', false);
+        },
+        'click .update': function (evt, tmpl) {
+            var listOpt = Session.get('listOpt')
+            var criteriaId = Session.get('criteriaId');
+            var criteriaInput = tmpl.find('.criteriaInput')
+                .value;
+            if (criteriaInput != '') {
+                for (var i = 0; i < QocData.findOne({
+                        _id: Session.get('idData')
+                    })
+                    .options[0].criterias.length; i++) {
+                    if (QocData.findOne({
+                            _id: Session.get('idData')
+                        })
+                        .options[0].criterias[i].criteria == criteriaId) {
+                        Meteor.call('updateValueCriteria', Session.get('idData'), i, criteriaInput)
+                        Session.set('showCriteriaInput', false);
+                        Session.set('newCriteria', false);
+                        break
+                    } else {
+                        Session.set('newCriteria', true);
+                    }
+                }
+            } else {
+                alert('Criteria is Empty')
+            }
+        }
+    });
+    Template.criteriaValue.newCriteria = function () {
+        return Session.get('newCriteria');
+    }
+    Template.criteriaValue.criteriaToUpdate = function () {
+        return Session.get('criteriaId');
+    }
+    Template.deleteCriteriaForm.criteria = function () {
+        return Session.get('criteriaId');
+    }
+    Template.qocAllCriteria.events({
+        'click .criterialist': function (evt, tmpl) {
+            Session.set('showCriteriaInput', true);
+            Session.set('criteriaId', tmpl.data.criteria);
+        },
+        'click .deleteCriteria': function (evt, tmpl) {
+            Session.set('criteriaId', tmpl.data.criteria);
+            Session.set('deleteCriteriaForm', true);
+        }
+    });
+    Template.sidebarbutton.userlogin = function () {
+        return onlogout()
+    }
+    
+    
+    
+    onlogout = function () {
+        var user = Meteor.user();
+        if (user == null) {
+            return false
+        } else {
+            return true
+        }
+    }
+    var updateCriteria = function (optionform, criteriaInput) {
+        Meteor.call("addValueCriteria", Session.get('idData'), optionform, criteriaInput);
+    }
+    var addOption = function (optionform) {
+        var InputCorrect = QocData.findOne({
+            _id: Session.get('idData'),
+            "options.option": optionform
+        })
+        if (InputCorrect) {
+            return false
+        } else {
+            Meteor.call('addNewOption', Session.get('idData'), optionform);
+            return true
+        }
+    }
+    var updateOptionValue = function (optionform, criteriaForm, valueName, updateBtn) {
+        Meteor.call("updateValueOption", Session.get('idData'), optionform, criteriaForm, valueName, updateBtn);
+    }
+    Template.myprofile.qocListOwner = function () {
+        var a = QocOption();
+        return a;
+    }
+    var countQoc = function (userInput) {
+        var optionAndValue = {}
+        var optionName = []
+            //        var result = {}
+        var result = []
+        var qoc = QocData.findOne({
+            _id: Session.get('idData')
+        })
+        if (qoc) {
+            for (var i = 0; i < qoc.options.length; i++) {
+                optionAndValue[qoc.options[i].option] = []
+                for (var j = 0; j < qoc.options[i].criterias.length; j++) {
+                    optionAndValue[qoc.options[i].option][j] = qoc.options[i].criterias[j].value
+                }
+                optionName[i] = qoc.options[i].option
+            }
+        }
+        for (var l = 0; l < optionName.length; l++) {
+            var totalValueOfOneOption = null
+            for (var k = 0; k < userInput.length; k++) {
+                var oneCriteria = userInput[k] * optionAndValue[optionName[l]][k]
+                totalValueOfOneOption = totalValueOfOneOption + oneCriteria
+            }
+            result[l] = {
+                "label": optionName[l],
+                "value": totalValueOfOneOption
+            }
+            //            result[optionName[l]] = totalValueOfOneOption
+        }
+        //        alert(JSON.stringify(result, null, 4))
+        var sortedResul = sortingResult(result)
+        Meteor.call("addNumSelected", Session.get('idData'), sortedResul[0].label)
+        Session.set('resultQoc', sortedResul);
+    }
+    var sortingResult = function (dataToSorting) {
+        return dataToSorting.sort(function (a, b) {
+                return a.value - b.value;
+            })
+            .reverse()
+    }
+    var curPath = function () {
+            var c = window.location.pathname;
+            var b = c.slice(0, -1);
+            var a = c.slice(-1);
+            if (b == "") {
+                return "/"
+            } else {
+                if (a == "/") {
+                    return b;
+                } else {
+                    return c;
+                }
+            }
+        }
+        //all registerHelper
+    Handlebars.registerHelper('active', function (path) {
+        return curPath() == path ? 'active' : '';
+    });
+    Handlebars.registerHelper('formatDate', function (datetime) {
+        if (moment) {
+            return moment(datetime)
+                .format("DD/MM/YYYY");
+        } else {
+            return datetime;
+        }
+    });
+//}
+
+//type one db
+/*
+QocData.insert({qoc:"which servers-side technology should I choose", description:"this QOC helps you to find out the best app that suit to your criteria", type:"programming",owner:"irawan", criteria:[{tittle:"performance"},{tittle:"Acceptance in corporate markets"},{tittle:"Complexity"}],option:[{name:"ASP",value:[20,30,40]},{name:"python",value:[10,40,30]},{name:"Java",value:[40,40,30]},{name:"Ruby",value:[30,30,30]}]})
+*/
+//type two db
+/*QocData.insert({qoc:"which Server Technology should I choose",description:"help you to find the best Server-side Technology with your own criteria",type:"technology",owner:"irawan",options:[{option:"ASP",criterias:[{criteria:"performance",value:20},{criteria:"complexity",value:30}]},{option:"python",criterias:[{criteria:"performance",value:40},{criteria:"complexity",value:40}]},{option:"Ruby",criterias:[{criteria:"performance",value:30},{criteria:"complexity",value:30}]}]})
+ */
+//type three db
+/*QocData.insert({qoc:"which Server Technology should I choose",description:"help you to find the best Server-side Technology with your own criteria",type:"technology",owner:"irawan",duedate:new Date(), status:"open", options:[{option:"ASP",numselected:0,criterias:[{criteria:"performance",value:20},{criteria:"complexity",value:30}]},{option:"python",numselected:3,criterias:[{criteria:"performance",value:40},{criteria:"complexity",value:40}]},{option:"Ruby",numselected:1,criterias:[{criteria:"performance",value:30},{criteria:"complexity",value:30}]}]})
+ */

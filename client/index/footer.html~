@@ -1,0 +1,10 @@
+<template name="footer">
+<footer>
+    <div class="navbar navbar-default navbar-fixed-bottom btn-group btn-group-justified" style="width:100%">
+      <a class="{{active '/'}} btn" href="/" style="width:100%"><b>Home</b></a>
+      <a class="{{active '/myqoc'}} btn" href
+      ="/myqoc" style="width:100%">my QOC</a>
+      <a class="{{active '/myprofile'}} btn" href="/myprofile" style="width:100%">my Profile</a>
+    </div>
+</footer>
+</template>

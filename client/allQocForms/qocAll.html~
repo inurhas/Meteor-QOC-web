@@ -1,0 +1,43 @@
+<template name="qocAllRow">
+    <h5>Description</h5>
+    <p>{{description}}</p>
+    <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Due Date</th>
+                <th>Type</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="qocAllRow">
+                <td>{{formatDate duedate}}</td>
+                <td>{{type}}</td>
+                <td><b>{{status}}</b>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</template>
+
+<template name="qocAllCriteria">
+    <tr>
+        <td class="criterialist" value={{criteria}} id={{criteria}}>
+            {{criteria}}
+        </td>
+        <td class="deleteCriteria"><button type="button" class="close delete_item"
+id="{{deleteCriteria}}">×{{deleteCriteria}}</button></td>
+    </tr>
+</template>
+
+<template name="optionlist">
+    <tr>
+        <td class="optionlist" value={{option}} id={{option}}>
+            {{option}}
+        </td>
+        <td class="deleteOption"><button type="button" class="close delete_item"
+id="{{deleteOption}}">×{{deleteOption}}</button></td>
+    </tr>
+</template>

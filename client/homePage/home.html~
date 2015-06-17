@@ -1,0 +1,118 @@
+<template name="home">
+  <!--condition to show Form-->
+  {{#if startCountShowForm}}{{>startCountQoc}}{{/if}}
+  {{#if showResult}}{{>result}}{{/if}}
+  <!--condition if user loged in-->
+  {{#if userlogin}}
+  <div class="wrapper">
+    <div class="box">
+      <div class="row row-offcanvas row-offcanvas-left">
+        {{>sidebarbutton}}
+        <!-- main right col -->
+        <div class="column col-sm-10 col-xs-11" id="main">
+          {{>header}}
+          <div class="padding">
+            <div class="full col-sm-9">
+              <!-- content -->
+              <div class="row">
+                {{#each qocList}} 
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                  {{#if options}}
+                    {{#if isOptionsMoreThanOne options.length}}
+                    <button type="button" class="btn pull-right btn-sm btn-success start">
+                      <b>
+                        Start this !
+                      </b>
+                    </button>
+                    {{/if}}
+                   {{/if}}
+                    <h4>
+                      {{qoc}}
+                    </h4>
+                  </div>
+                  <div class="panel-body" id="{{_id}}" >
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        <b>
+                          description : 
+                        </b>
+                        {{description}}
+                      </li>
+                      {{#if options}}
+                        <li class="list-group-item">
+                          <b>
+                            options : 
+                          </b>
+                          {{#each options}} {{option}}, {{/each}}
+                        </li>
+                      {{else}}
+                        <li class="list-group-item" style="background-color:#FFF380">
+                          <b>
+                            options : this QOC has no Option to execute
+                          </b>
+                        </li>
+                      {{/if}} 
+                      <li class="list-group-item">
+                        <b>
+                          type : 
+                        </b>
+                        {{type}}
+                      </li>
+                      <li class="list-group-item">
+                        <b>
+                          owner : 
+                        </b>
+                        {{owner}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                {{/each}}
+              </div>
+              <div class="row">
+                {{#if postsReady}}
+                {{#unless allPostsLoaded}}
+                <a type="button" class="btn btn-default load-more" href="#" style="display: block; width: 100%;">
+                  Load more
+                </a>
+                {{/unless}}
+                {{else}}
+                <div>
+                  {{>spinner}}
+                </div>
+                {{/if}}
+              </div>
+              <div class="row" id="footer">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                  <p>
+                    <a href="#" class="pull-right">
+                      ©Copyright 2014
+                    </a>
+                  </p>
+                </div>
+              </div>
+              <hr>
+              <h4 class="text-center">
+                <a href="http://www.hs-ruhrwest.de" target="ext">
+                  QOCapp @hs-ruhrwest
+                </a>
+              </h4>
+              <hr>
+            </div>
+            <!-- /col-9 -->
+          </div>
+          <!-- /padding -->
+        </div>
+        <!-- /main -->
+      </div>
+    </div>
+  </div>
+  <!--{{>footer}} -->
+  {{else}} 
+    {{>onlogout}} 
+  {{/if}}
+</template>
+

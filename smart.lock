@@ -1,0 +1,67 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "router": {},
+      "moment": {},
+      "bootstrap-3": {},
+      "nvd3js": {},
+      "paginated-subscription": {},
+      "spin": {},
+      "bootstrap3-slider-touch": {},
+      "fast-render": {}
+    },
+    "packages": {
+      "router": {
+        "git": "https://github.com/tmeasday/meteor-router.git",
+        "tag": "v0.6.1",
+        "commit": "8ec75fec7affdefc787d19f23b36fd6d1d44ef04"
+      },
+      "moment": {
+        "git": "https://github.com/acreeger/meteor-moment.git",
+        "tag": "v2.6.0",
+        "commit": "26156df681750fd6e6ed77043eef32b6653ebbdf"
+      },
+      "bootstrap-3": {
+        "git": "https://github.com/mangasocial/meteor-bootstrap-3.git",
+        "tag": "v3.1.1-1",
+        "commit": "63dd38968828bb8963636df93e9a1c45e2dfe67e"
+      },
+      "nvd3js": {
+        "git": "https://github.com/ouuyeah/nvd3js.git",
+        "tag": "v0.1.0",
+        "commit": "89a8c66bb3b35d25900d31195ae0b318e4176ddb"
+      },
+      "paginated-subscription": {
+        "git": "https://github.com/tmeasday/meteor-paginated-subscription.git",
+        "tag": "v0.2.2",
+        "commit": "2133a2163575f569f90253f81314f21b2bf08d20"
+      },
+      "spin": {
+        "git": "https://github.com/SachaG/meteor-spin.git",
+        "tag": "v0.2.2",
+        "commit": "3f655f0016228e4195acc784c45d3e3a247dc39f"
+      },
+      "bootstrap3-slider-touch": {
+        "git": "https://github.com/jcchin/meteor-bootstrap-slider-touch/",
+        "tag": "v2.0.3",
+        "commit": "3f8ce5ad2696fb80c337949890e2ded415ac3239"
+      },
+      "fast-render": {
+        "git": "https://github.com/arunoda/meteor-fast-render.git",
+        "tag": "v0.2.8",
+        "commit": "149984b1aff3a5642a270aff9bd9006872c8302e"
+      },
+      "page-js-ie-support": {
+        "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",
+        "tag": "v1.3.5",
+        "commit": "b99ed8380aefd10b2afc8f18d9eed4dd0d8ea9cb"
+      },
+      "HTML5-History-API": {
+        "git": "https://github.com/tmeasday/meteor-HTML5-History-API.git",
+        "tag": "v4.1.2",
+        "commit": "b5fca79f9ae8936e5f748a04f475295f4fa1cc7a"
+      }
+    }
+  }
+}

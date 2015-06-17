@@ -1,0 +1,85 @@
+<template name="myqoc">
+  <!--condition to show Form-->
+  {{#if showOptionValue}}{{>optionValue}}{{/if}}
+  {{#if showCriteriaInput}}{{>criteriaValue}} {{/if}} 
+  {{#if deleteOptionShowForm}}{{>deleteOptionForm}}{{/if}}
+  {{#if deleteCriteriaShowForm}}{{>deleteCriteriaForm}}{{/if}}
+  {{#if deleteQocShowForm}}{{>deleteQocForm}}{{/if}}
+  {{#if updateQocShowForm}}{{>updateQocForm}}{{/if}}
+  {{#if startCountShowForm}}{{>startCountQoc}}{{/if}}
+  {{#if showResult}}{{>result}}{{/if}}
+  <!--condition if user loged in-->
+  {{#if userlogin}}
+  <div class="wrapper">
+    <div class="box">
+      <div class="row row-offcanvas row-offcanvas-left">
+        {{>
+        sidebarbutton}}
+        <!-- main right col -->
+        <div class="column col-sm-10 col-xs-11" id="main">
+          {{>
+          header}}
+          <div class="padding">
+            <div class="full col-sm-9">
+              <!-- content -->
+              <div class="row">
+                <div>
+                  <h1>
+                    my QOC 
+                    <small>
+                      List
+                    </small>
+                  </h1>
+                </div>
+                
+                <div style="width:100% color:black">
+                  <button Class="btn btn-success btn-lg addqoc" style="width:100%">
+                    <i class="glyphicon glyphicon-plus">
+                    </i>
+                    <b>
+                      Add QOC
+                    </b>
+                  </button>
+                </div>
+                
+                <br>
+                <div class="panel-group list-group" id="accordion2" style="width:100%">
+                  {{#each qocListOwner}}
+                  {{>listQoc}}
+                  {{/each}}
+                </div>
+              </div>
+              <!--/row-->
+              <div class="row">
+                <ul class="pager">
+                  {{#if morePrevious}}
+                  <li class="previous">
+                    <a href="#">
+                      &larr; ({{previousText}})  Previous
+                    </a>
+                  </li>
+                  {{/if}}
+                  {{#if numberOfAllOwnQoc}}
+                  <li class="next">
+                    <a href="#">
+                      Next ({{nextText}}) &rarr;
+                    </a>
+                  </li>
+                  {{/if}}
+                </ul>
+              </div>
+            </div>
+            <!-- /col-9 -->
+          </div>
+          <!-- /padding -->
+        </div>
+        <!-- /main -->
+        
+      </div>
+    </div>
+  </div>
+  <!--{{>footer}}-->
+  {{else}}
+  {{>onlogout}}
+  {{/if}}
+</template>

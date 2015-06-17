@@ -1,0 +1,59 @@
+<template name="startCountQoc">
+  <div class="modal show">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <a class="close cancel" data-dismiss="modal">
+            x
+          </a>
+          <h3>
+            <small>
+              Question : 
+            </small>
+            <br>
+            {{Question}}
+          </h3>
+          
+        </div>
+        <div class="container-fluid modal-body">
+          <form class="container-fluid form center-block">
+            <div class="form-group">
+              <div >
+                <br>
+                <h5>
+                  please give your score for each criteria ? 
+                  <small>
+                    default null
+                  </small>
+                </h5>
+              </div>
+            </div>
+            {{#each valueList}} {{>
+            userCriteria}}{{/each}}
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-success analyse">
+            Analyse
+          </a>
+          <a href="#" class="btn btn-warning cancel" data-dismiss="modal">
+            Cancel
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="userCriteria">
+  <div class="form-group">
+    <label for="criteria" class="{{criteria}}  control-label">
+      <span>
+        {{criteria}} :
+      </span>
+      </label>
+      <div >
+        <input type="number" class="input form-control input-xlarge value_{{index}}" value="5" name="value" id="value_{{index}}" placeholder="only number" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="5" data-slider-selection="before">
+      </div>
+  </div>
+</template>

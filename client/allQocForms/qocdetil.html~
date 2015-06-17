@@ -1,0 +1,84 @@
+<template name="qocdetil">
+  
+<div class="modal-header">
+      <a class="close" data-dismiss="modal">
+        x
+      </a>
+      <h3>
+        QOC detail
+      </h3>
+  </div>
+  
+  <div class="modal-body">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#modeldetail" data-toggle="tab">
+            General Information
+          </a>
+        </li>
+        <li>
+          <a href="#modelCriteria" data-toggle="tab">
+            Criteria
+          </a>
+        </li>
+        <li>
+          <a href="#modelOptions" data-toggle="tab">
+            Options
+          </a>
+        </li>
+        <li>
+          <a href="#modelStatistic" data-toggle="tab">
+            Statistic
+          </a>
+        </li>
+      </ul>
+      
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="modeldetail">
+          {{#each qocListOwner}}
+          {{>qocAllRow}}
+          {{/each}}
+        </div>
+        
+        <div class="tab-pane" id="modelCriteria">
+	<table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>criteria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each qocListCriteria}}
+                    {{>qocAllCriteria}}
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="tab-pane" id="modelOptions">
+          <label for="qoc">
+            QOC :
+          </label>
+          <input  type="text" class="input input-xlarge" name="qoc" value="{{QocData.qoc}}" id="qoc">
+        </div>
+        <div class="tab-pane" id="modelStatistic">
+          <label for="qoc">
+            QOC :
+          </label>
+          <input  type="text" class="input input-xlarge" name="qoc" value="{{QocData.qoc}}" id="qoc">
+        </div>
+      </div>
+  </div>
+  
+  <div class="modal-footer">
+    <a href="#" class="btn btn-success">
+      save
+    </a>
+    <a href="#" class="btn" data-dismiss="modal">
+      Cancel
+    </a>
+  </div>
+  </div>
+</template>

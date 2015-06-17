@@ -1,0 +1,124 @@
+<template name="updateQocForm">
+  <div class="container">
+    <div class="modal show">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <a class="close cancel" data-dismiss="modal">
+              x
+            </a>
+            {{#if addQoc}}
+            <h4>
+              Add new QOC
+            </h4>
+            {{else}}
+            <h4>
+              Edit QOC : 
+              <small>
+                {{qocQuestion}}
+              </small>
+            </h4>
+            {{/if}}
+          </div>
+          <div class="container-fluid modal-body">
+            <form class="container-fluid form center-block">
+              <div class="form-group">
+                <label for="qocQuestion" class="control-label">
+                  <span>
+                    QOC Question :
+                  </span>
+                </label>
+                <div class="">
+                  {{#if addQoc}}
+                  <input type="text" placeholder="Case sensitive" class="input input-xlarge form-control qocQuestion" name="qoc" value="" id="qocQuestion">
+                  {{else}}  
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <input type="checkbox" class="checkboxEditQocName">
+                      edit
+                    </span>
+                    <input type="text" placeholder="Case sensitive" class="input input-xlarge form-control qocQuestion" name="qoc" value="{{qocData.qoc}}" id="qocQuestion" {{enabled}}>
+                    <input type="text" placeholder="Case sensitive" class="input input-xlarge form-control qocQuestion" name="qoc" value="{{qocData.qoc}}" id="qocQuestion" {{enabled}}>
+                  </div>
+                  {{/if}}
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="qocDescription" class="control-label">
+                  <span>
+                    Description :
+                  </span>
+                </label>
+                <div >
+                  {{#if addQoc}}
+                  <input type="text"  placeholder="description" class="input input-xlarge form-control description" name="description" value="" id="description">
+                  {{else}}
+                  <input type="text"  placeholder="description" class="input input-xlarge form-control description" name="description" value="{{qocData.description}}" id="description">
+                  {{/if}}
+                </div>
+              </div>
+              
+              <div class=" form-group">
+                <label for="type" class="control-label">
+                  <span>
+                    QOC Type :
+                  </span>
+                </label>
+                <div>
+                  {{#if addQoc}}
+                  <input type="text" placeholder="type" class="input form-control input-xlarge type" name="type" value="" id="type">
+                  {{else}}
+                  <input type="text" placeholder="type" class="input form-control input-xlarge type" name="type" value="{{qocData.type}}" id="type">
+                  {{/if}}
+                </div>
+              </div>
+              <div class="form-group" >
+                <label for="status" class="control-label">
+                  <span>
+                    Status :
+                  </span>
+                </label>
+                <div>
+                  <select class="status form-control" _val="{{qocData.status}}" name="status" id="status">
+                    {{#if sharedStatusJa}}
+                    <option value="Shared">
+                      shared
+                    </option>
+                    <option value="not Shared">
+                      not shared
+                    </option>
+                    {{else}}
+                    <option value="not Shared">
+                      not shared
+                    </option>
+                    <option value="Shared">
+                      shared
+                    </option>
+                    {{/if}}
+                    
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            {{#if addQoc}}
+            <a href="#" class="btn btn-success save">
+              save
+            </a>
+            {{else}}
+            <a href="#" class="btn btn-success update">
+              update
+            </a>
+            {{/if}}
+            <a href="#" class="btn btn-warning cancel" data-dismiss="modal">
+              Cancel
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+

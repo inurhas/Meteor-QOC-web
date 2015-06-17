@@ -1,0 +1,12 @@
+{
+  "packages": {
+    "router": {},
+    "moment": {},
+    "bootstrap-3": {},
+    "nvd3js": {},
+    "paginated-subscription": {},
+    "spin": {},
+    "bootstrap3-slider-touch": {},
+    "fast-render": {}
+  }
+}

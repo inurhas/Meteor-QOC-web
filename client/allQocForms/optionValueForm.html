@@ -1,0 +1,80 @@
+<template name="optionValue">
+  <div class="modal show">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <a class="close cancel" data-dismiss="modal">
+            x
+          </a>
+          {{#if newOption}}
+          <h3>
+            Option : 
+            <small>
+              <input type="text" class="input input-xlarge optionform" name="option" value="{{Option}}" placeholder="Option is Case sensitive">
+            </small>
+          </h3>
+          {{else}}
+          <h3>
+            <small>
+              Option : 
+            </small>
+            {{Option}}
+          </h3>
+          {{/if}}
+        </div>
+        <div class="container-fluid modal-body">
+          <form class="container-fluid form center-block">
+            {{#each valueList}}
+               {{>ListValues}}
+            {{/each}}
+          <br>
+          {{#if checkOptionNull}}
+                <div class="alert alert-warning alert-dismissable">
+                  <button type="button" class="close" data-dismiss="alert">×</button>
+                  <strong>
+                    Empty Criteria !
+                  </strong>
+                  please save this new Option first, than you can add your own criteria.
+                </div>
+                {{else}} 
+          <a href="#" class="btn btn-primary btn-sm addCriteriaForm pull-right" data-dismiss="modal">
+            Add Criteria
+          </a>
+          {{/if}}
+          </form>
+        </div>
+        <div class="modal-footer">
+          {{#if updateOptionbtn}}
+          <a href="#" class="btn btn-success update">
+            Update
+          </a>
+          {{else}}
+          <a href="#" class="btn btn-success save">
+            Save
+          </a>
+          {{/if}}
+          <a href="#" class="btn btn-warning cancel" data-dismiss="modal">
+            Cancel
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="ListValues">
+  <div class="form-group">
+    <label for="criteria" class="{{criteria}} control-label">
+      <span>
+        {{criteria}} :
+      </span>
+      </label>
+      <div >
+        {{#if newOption}}
+           <input type="number" class="input input-xlarge form-control value_{{index}}" name="value" value="" id="value_{{index}}" placeholder="only number">
+        {{else}}
+            <input type="number" class="input input-xlarge form-control value_{{index}}" name="value" value="{{value}}" id="value_{{index}}" placeholder="only number">
+        {{/if}}
+      </div>
+  </div>
+</template>

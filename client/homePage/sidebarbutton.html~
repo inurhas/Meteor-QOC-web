@@ -1,0 +1,51 @@
+<template name="sidebarbutton">
+                <!-- sidebar -->
+                <div class="column col-sm-2 col-xs-1 sidebar-offcanvas" id="sidebar">
+
+                    <ul class="nav sidebarnya ">
+                        <li><a href="#" data-toggle="offcanvas" class="visible-xs text-center "><i class="glyphicon glyphicon-chevron-right"></i></a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav hidden-xs" id="lg-menu">
+                        <li class="{{active '/'}}">
+                            <a href="/"><i class="glyphicon glyphicon-home"></i> Home</a>
+                        </li>
+                        <li class="{{active '/myqoc'}}">
+                            <a href="/myqoc"><i class="glyphicon glyphicon-list"></i> my QOC</a>
+                        </li>
+                        <li class="{{active '/myprofile'}}">
+                            <a href="/myqoc"><i class="glyphicon glyphicon-user"></i> my Profile</a>
+                        </li>
+                        {{#if userlogin}}
+                        <li>
+<a href="/" class="logoutsidebar"><i class="glyphicon glyphicon-off"></i> log Out</a>
+                        </li>
+                        {{/if}}
+                        
+                        <li id="sidebar-footer">
+                            <a href="http://www.hs-ruhrwest.de"><h3>Hochschule Ruhr West</h3><h5>University of Applied Science</h5> <i class="glyphicon glyphicon-bookmark"></i> official Website</a>
+                        </li>
+                        
+                    </ul>
+                    <!-- tiny only nav-->
+                    <ul class="nav visible-xs" id="xs-menu">
+                        <li class="{{active '/'}} text-center">
+                            <a href="/"><i class="glyphicon glyphicon-home"></i></a>
+                        </li>
+                        <li class="{{active '/myqoc'}} text-center">
+                            <a href="/myqoc"><i class="glyphicon glyphicon-list"></i></a>
+                        </li>
+                        <li class="{{active '/myprofile'}} text-center">
+                            <a href="/myqoc"><i class="glyphicon glyphicon-user"></i></a>
+                        </li>
+                        {{#if userlogin}}
+                        <li>
+                            <a href="/" class="logoutsidebar text-center"><i class="glyphicon glyphicon-off"></i></a>
+                        </li>
+                        {{/if}}
+                    </ul>
+
+                </div>
+                <!-- /sidebar -->
+</template>

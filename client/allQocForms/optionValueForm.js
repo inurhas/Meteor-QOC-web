@@ -1,0 +1,67 @@
+Template.optionValue.updateOptionbtn = function () {
+    return Session.get('updateOptionbtn');
+}
+//all events and logic on template optionValue
+Template.optionValue.Option = function () {
+    return Session.get('optionId');
+}
+Template.optionValue.events({
+    'click .save': function (evt, tmpl) {
+        var optionform = tmpl.find('.optionform')
+            .value
+        if (optionform == '') {
+            alert('Empty Option')
+        } else {
+            var InputCorrect = dbUpdate(evt, tmpl, Session.get('updateOptionbtn'));
+            if (InputCorrect) {
+                Session.set('showOptionValue', false);
+                Session.set('newOption', true);
+                Session.set('optionId', null);
+                Session.set('chrit', null);
+            } else {
+                alert('You Have entered the same Option')
+            }
+        }
+    },
+    'click .update': function (evt, tmpl) {
+        dbUpdate(evt, tmpl, Session.get('updateOptionbtn'));
+        Session.set('showOptionValue', false);
+        Session.set('optionId', null);
+        Session.set('newOption', true);
+        Session.set('chrit', null);
+        Session.set('updateOptionbtn', false);
+    },
+    'click .cancel': function (evt, tmpl) {
+        Session.set('showOptionValue', false);
+        Session.set('newOption', true);
+        Session.set('updateOptionbtn', false);
+        Session.set('chrit', null);
+    },
+    'click .addCriteriaForm': function () {
+        Session.set('showCriteriaInput', true);
+        Session.set('newCriteria', true);
+    },
+});
+Template.optionValue.valueList = function () {
+    var listOfCriteria = getListCriteria() //from global function
+    return listOfCriteria
+}
+Template.optionValue.newOption = function () {
+    return Session.get('newOption');
+}
+Template.optionValue.checkOptionNull = function () {
+    var selectedQoc = findOneQocOnCollection()
+    if (selectedQoc && selectedQoc.options) {
+        if (selectedQoc.options.length == 0) {
+            return true
+        } else {
+            return false
+        }
+    } else {
+        return false
+    }
+}
+//check if newOption then show empty value of each criteria on optionValue form
+Template.ListValues.newOption = function () {
+    return Session.get('newOption');
+}

@@ -1,0 +1,46 @@
+<template name="footer">
+<footer>
+    <div class="navbar navbar-default navbar-fixed-bottom btn-group btn-group-justified" style="width:100%">
+<!--        <div class="container">-->
+<!--            <div class="navbar-header">-->
+<!--                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#footer-body">-->
+<!--                    <span class="icon-bar"></span>-->
+<!--                    <span class="icon-bar"></span>-->
+<!--                    <span class="icon-bar"></span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="navbar-collapse collapse" id="footer-body">-->
+<!--                <ul class="nav navbar-nav">-->
+<!--                <li class="{{active '/'}}">-->
+<!--                    <a href="/">Home</a>-->
+<!--                </li>-->
+<!--                <li class="{{active '/myqoc'}}">-->
+<!--                    <a href="/myqoc">my QOC</a>-->
+<!--                </li>-->
+<!--                <li class="{{active '/myprofile'}}">-->
+<!--                    <a href="/myprofile">my Profile</a>-->
+<!--                </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+
+<!--<div class="btn-group btn-group-justified" style="width:100% height:100%">-->
+      <a class="{{active '/'}} btn" href="/" style="width:100%"><b>Home</b></a>
+      <a class="{{active '/myqoc'}} btn" href
+      ="/myqoc" style="width:100%">my QOC</a>
+      <a class="{{active '/myprofile'}} btn" href="/myprofile" style="width:100%">my Profile</a>
+<!--</div>-->
+
+<!--                <li class="{{active '/'}} btn-group">-->
+<!--                    <a type="button" class="btn btn-default" href="/">Home</a>-->
+<!--                </li>-->
+<!--                <li class="{{active '/myqoc'}} btn-group">-->
+<!--                    <a type="button" class="btn btn-default" href="/myqoc">my QOC</a>-->
+<!--                </li>-->
+<!--                <li class="{{active '/myprofile'}} btn-group">-->
+<!--                    <a type="button" class="btn" href="/myprofile">my Profile</a>-->
+<!--                </li>-->
+<!--</ul>-->
+<!--        </div>-->
+    </div>
+</footer>
+</template>

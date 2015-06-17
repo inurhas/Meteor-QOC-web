@@ -1,0 +1,26 @@
+<template name="deleteQocForm">
+    <div class="modal show">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close cancel" data-dismiss="modal">x</a>
+                    <h3>Confirmation</h3>
+                </div>
+                <div class="container-fluid modal-body">
+                <form class="container-fluid form center-block">
+                        <div class="form-group">
+                        <div >
+                        <br>
+                    <h4><small>Are you Sure to Delete QOC : </small><br>{{qoc}}</h4>
+                       </div>
+                        </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-danger delete">Delete</a>
+                    <a href="#" class="btn btn-warning cancel" data-dismiss="modal">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

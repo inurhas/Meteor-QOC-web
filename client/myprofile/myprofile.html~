@@ -1,0 +1,11 @@
+<template name="myprofile">
+{{> header}}
+    <div class="container container-fluid">
+        <div class="row-fluid">
+            <div class="page-header">
+                <h1>my Profile <small> detail : </small></h1>
+            </div>
+		<h3>My Profile</h3>
+        </div>
+    </div>
+</template>

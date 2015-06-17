@@ -1,0 +1,16 @@
+//define router for template
+Meteor.Router.add({
+    '/': 'home',
+    '/myqoc': 'myqoc',
+//   '/myprofile': 'myprofile',
+    '/qocdetail': 'qocdetail'
+})
+
+Meteor.Router.configure({
+  load: function() {
+    $('html, body').animate({
+      scrollTop: 0
+    }, 400);
+    $('.content').hide().fadeIn(800);
+  }
+});
